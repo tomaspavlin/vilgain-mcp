@@ -14,7 +14,7 @@ Example prompts:
 **🛒 Shopping**
 
 - *Add whey protein and a jar of peanut butter to my cart. Pick well-rated ones.*
-- *I'm making protein pancakes — put the ingredients in my cart, budget-friendly.*
+- *I'm making protein pancakes — put the ingredients in my cart, high quality only.*
 - *What's in my cart right now and how much will it cost?*
 - *Swap the chocolate flavor in my cart for vanilla.*
 
