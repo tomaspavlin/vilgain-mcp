@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { OrderDetail, OrderItem, OrderSummary, OrderTimelineEvent } from '../types.js';
 import { cleanText, parsePriceText } from './common.js';
+import { variantIdFromUrl } from './product.js';
 
 /** Parse the order history page (/muj-ucet/objednavky). */
 export function parseOrderHistory(html: string, baseUrl: string): OrderSummary[] {
@@ -67,6 +68,8 @@ export function parseOrderDetail(html: string, baseUrl: string): OrderDetail {
     items.push({
       name,
       variant,
+      // Item links point to the variant's product page; its URL suffix is the variant id.
+      variantId: href ? variantIdFromUrl(href) : undefined,
       quantity: quantityMatch ? parseInt(quantityMatch[1], 10) : undefined,
       price: price?.price,
       currency: price?.currency,

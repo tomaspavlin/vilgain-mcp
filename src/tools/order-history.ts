@@ -48,8 +48,8 @@ export function createOrderHistoryTools(api: VilgainAPI) {
     definition: {
       title: 'Get Order Detail',
       description:
-        'Get one past order of the logged-in Vilgain account: items with variants, quantities and prices, ' +
-        'order total, delivery destination and shipment status timeline.',
+        'Get one past order of the logged-in Vilgain account: items with variants, quantities, prices and ' +
+        'variant IDs (usable with add_to_cart to reorder), order total, delivery destination and shipment status timeline.',
       inputSchema: {
         order_id: z.string().regex(/^\d+$/).describe('Order ID from get_order_history'),
       },
@@ -72,7 +72,8 @@ export function createOrderHistoryTools(api: VilgainAPI) {
                 item.quantity !== undefined ? `${item.quantity} pcs` : undefined,
                 item.price !== undefined ? `${item.price} ${item.currency}` : undefined,
               ].filter(Boolean);
-              return `• ${item.name}${parts.length > 0 ? ` (${parts.join(', ')})` : ''}${item.url ? `\n  URL: ${item.url}` : ''}`;
+              const variantId = item.variantId !== undefined ? `\n  Variant ID (for add_to_cart): ${item.variantId}` : '';
+              return `• ${item.name}${parts.length > 0 ? ` (${parts.join(', ')})` : ''}${variantId}${item.url ? `\n  URL: ${item.url}` : ''}`;
             })
             .join('\n');
           sections.push(`## Items\n${items}`);

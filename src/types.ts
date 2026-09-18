@@ -106,6 +106,8 @@ export interface OrderItem {
   name: string;
   /** e.g. "Příchuť: křupavé mandle" */
   variant?: string;
+  /** Variant id usable with add_to_cart (to reorder the item) */
+  variantId?: number;
   quantity?: number;
   /** Line price with VAT */
   price?: number;

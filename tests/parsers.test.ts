@@ -160,6 +160,7 @@ describe('parseOrderDetail', () => {
     expect(almondButter!.quantity).toBe(1);
     expect(almondButter!.price).toBe(186);
     expect(almondButter!.url).toContain('/vilgain-mandlove-maslo');
+    expect(almondButter!.variantId).toBe(46122);
   });
 
   it('parses the shipment timeline', () => {
