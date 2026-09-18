@@ -21,6 +21,10 @@ Example prompts:
 
 ### Claude Desktop / Claude Code configuration
 
+Add the MCP to the Claude Desktop configuration file:
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+
 ```json
 {
   "mcpServers": {
@@ -44,7 +48,15 @@ For Claude Code: `claude mcp add vilgain -e VILGAIN_EMAIL=... -e VILGAIN_PASSWOR
 |---|---|---|
 | `VILGAIN_EMAIL` | yes | Vilgain account e-mail |
 | `VILGAIN_PASSWORD` | yes | Vilgain account password |
-| `VILGAIN_BASE_URL` | no | Store base URL, defaults to `https://vilgain.cz`. Other country stores (e.g. `https://vilgain.sk`) may work but are untested. |
+| `VILGAIN_BASE_URL` | no | Store base URL, defaults to `https://vilgain.cz` |
+
+### Supported regions
+
+Vilgain operates in several countries. The server is developed and tested against the Czech store; other regions can be selected with `VILGAIN_BASE_URL` and may work since they run the same platform, but are untested:
+
+* **Czech Republic**: `https://vilgain.cz` (default)
+* **Slovakia**: `https://vilgain.sk` (untested)
+* **Other countries** (`vilgain.com`, `vilgain.de`, ...): untested
 
 ## Tools
 
@@ -74,6 +86,25 @@ npm run inspect        # open MCP Inspector to try the tools manually
 ```
 
 Copy `.env.example` to `.env` and fill in your credentials for `validate-api` and `inspect`.
+
+### Testing with Claude Desktop
+
+To run a local build instead of the published package, point the config at `dist/index.js`:
+
+```json
+{
+  "mcpServers": {
+    "vilgain-local": {
+      "command": "node",
+      "args": ["/path/to/vilgain-mcp/dist/index.js"],
+      "env": {
+        "VILGAIN_EMAIL": "your-email@example.com",
+        "VILGAIN_PASSWORD": "your-password"
+      }
+    }
+  }
+}
+```
 
 The server has three layers:
 
