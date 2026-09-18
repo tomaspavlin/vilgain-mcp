@@ -11,11 +11,27 @@ Because Vilgain focuses on clean-label food, the product detail tool exposes wha
 
 Example prompts:
 
-- *Find a whey protein without sucralose and add the cheapest flavor to my cart.*
-- *What's the protein content per 100 g of Vilgain peanut butter?*
-- *Compare the ingredients of these two protein bars — which one has less sugar?*
-- *Add ingredients for a high-protein breakfast to the cart, under 500 Kč total.*
-- *What's in my cart right now?*
+**🛒 Shopping**
+
+- *Add whey protein and a jar of peanut butter to my cart. Pick well-rated ones.*
+- *I'm making protein pancakes — put the ingredients in my cart, budget-friendly.*
+- *What's in my cart right now and how much will it cost?*
+- *Swap the chocolate flavor in my cart for vanilla.*
+
+**🥗 Ingredients & nutrition**
+
+- *Find a protein bar without sucralose and with at least 25 % protein.*
+- *Pick the omega-3 supplement with the best price per 1 g of EPA+DHA.*
+- *Compare the ingredients of Vilgain peanut butter and almond butter — which has the shorter ingredient list?*
+- *How much protein per 100 g does the vanilla flavor have compared to chocolate?*
+- *Does the Double Trouble bar contain any allergens I should worry about? I'm allergic to nuts.*
+- *Find me a breakfast granola with no added sugar and check its actual ingredient list.*
+
+**🔁 Reordering**
+
+- *What did I buy in my last order?*
+- *Order the same things as last time, but skip the turkey breast.*
+- *When did my last order arrive and where did I pick it up?*
 
 ## Usage
 
