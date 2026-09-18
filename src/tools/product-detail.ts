@@ -16,22 +16,29 @@ export function createProductDetailTool(api: VilgainAPI) {
       title: 'Get Product Detail',
       description:
         'Get what is inside a Vilgain product: ingredients (with allergens), nutrition facts, dosage and description. ' +
-        'Content refers to the variant selected by the URL - pass a specific variant URL (from get_product_variants) ' +
-        'to inspect a different flavor. For the list of variants and prices use get_product_variants instead.',
+        'Without variant_id it describes the product\'s default variant; pass variant_id (from search_products, ' +
+        'get_product_variants or get_order_detail) to inspect a specific flavor/size. ' +
+        'For the list of variants and prices use get_product_variants instead.',
       inputSchema: {
         product_url: z
           .string()
           .min(1)
           .describe('Product or variant URL, e.g. "https://vilgain.cz/vilgain-whey-protein-2"'),
+        variant_id: z
+          .number()
+          .int()
+          .positive()
+          .optional()
+          .describe('Optional variant ID to get the content of a specific flavor/size of this product'),
       },
       annotations: {
         readOnlyHint: true,
         openWorldHint: true,
       },
     },
-    handler: async ({ product_url }: { product_url: string }) => {
+    handler: async ({ product_url, variant_id }: { product_url: string; variant_id?: number }) => {
       try {
-        const detail = await api.getProductDetail(product_url);
+        const detail = await api.getProductDetail(product_url, variant_id);
 
         const sections: string[] = [];
         sections.push(`# ${detail.name}`);

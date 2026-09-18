@@ -163,16 +163,30 @@ export class VilgainAPI {
     return parseSearchResults(html, this.baseUrl).slice(0, limit);
   }
 
-  /** Fetch and parse a product detail page. Accepts absolute or relative product URLs. */
-  async getProductDetail(productUrl: string): Promise<ProductDetail> {
-    const url = new URL(productUrl, this.baseUrl);
+  /**
+   * Fetch and parse a product detail page. Accepts absolute or relative product URLs.
+   * With `variantId`, the page of that specific variant is fetched instead of the
+   * default one (the router resolves `/<product-slug>/<anything>-<variantId>`).
+   */
+  async getProductDetail(productUrl: string, variantId?: number): Promise<ProductDetail> {
+    let url = new URL(productUrl, this.baseUrl);
     if (url.host !== new URL(this.baseUrl).host) {
       throw new VilgainAPIError(`Product URL must be on ${this.baseUrl}`);
     }
+    if (variantId !== undefined) {
+      const productSlug = url.pathname.split('/').filter(Boolean)[0];
+      if (!productSlug) {
+        throw new VilgainAPIError('Product URL is missing the product slug');
+      }
+      url = new URL(`/${productSlug}/v-${variantId}`, this.baseUrl);
+    }
     const response = await this.request(url.href);
     const html = await response.text();
-    // response.url is the final URL after redirects and identifies the selected variant.
-    return parseProductDetail(html, response.url);
+    const detail = parseProductDetail(html, response.url);
+    if (variantId !== undefined && detail.selectedVariantId !== variantId) {
+      throw new VilgainAPIError(`Variant ${variantId} not found on ${productUrl}`);
+    }
+    return detail;
   }
 
   /** Get current cart content. */

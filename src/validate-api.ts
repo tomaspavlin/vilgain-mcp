@@ -58,6 +58,17 @@ const detail = products
     })
   : undefined;
 
+if (detail && products) {
+  const otherVariant = detail.variants.find((v) => v.inStock && v.variantId !== detail.selectedVariantId);
+  if (otherVariant) {
+    await step(`getProductDetail(variant ${otherVariant.variantId})`, async () => {
+      const variantDetail = await api.getProductDetail(products[0].url, otherVariant.variantId);
+      assert(variantDetail.selectedVariantId === otherVariant.variantId, 'wrong variant selected');
+      assert(variantDetail.ingredients, 'no ingredients for variant');
+    });
+  }
+}
+
 const variant = detail?.variants.find((v) => v.inStock);
 if (variant) {
   await step(`addToCart(${variant.variantId} = ${variant.name}, quantity 2)`, async () => {
