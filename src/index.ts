@@ -4,7 +4,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { VilgainAPI } from './vilgain-api.js';
 import { createCartTools } from './tools/cart.js';
-import { createOrderHistoryTool } from './tools/order-history.js';
+import { createOrderHistoryTools } from './tools/order-history.js';
 import { createProductDetailTool } from './tools/product-detail.js';
 import { createProductVariantsTool } from './tools/product-variants.js';
 import { createSearchProductsTool } from './tools/search-products.js';
@@ -30,7 +30,7 @@ const searchProducts = createSearchProductsTool(api);
 const productVariants = createProductVariantsTool(api);
 const productDetail = createProductDetailTool(api);
 const cartTools = createCartTools(api);
-const orderHistory = createOrderHistoryTool(api);
+const orderTools = createOrderHistoryTools(api);
 
 server.registerTool(searchProducts.name, searchProducts.definition, searchProducts.handler);
 server.registerTool(productVariants.name, productVariants.definition, productVariants.handler);
@@ -43,7 +43,8 @@ server.registerTool(
   cartTools.setCartItemQuantity.handler
 );
 server.registerTool(cartTools.removeFromCart.name, cartTools.removeFromCart.definition, cartTools.removeFromCart.handler);
-server.registerTool(orderHistory.name, orderHistory.definition, orderHistory.handler);
+server.registerTool(orderTools.getOrderHistory.name, orderTools.getOrderHistory.definition, orderTools.getOrderHistory.handler);
+server.registerTool(orderTools.getOrderDetail.name, orderTools.getOrderDetail.definition, orderTools.getOrderDetail.handler);
 
 async function main() {
   const transport = new StdioServerTransport();

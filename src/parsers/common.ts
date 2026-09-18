@@ -16,7 +16,7 @@ export function cleanText(text: string): string {
 /** Parse a price text like "999 Kč" or "1 234,50 Kč" into a number and ISO currency. */
 export function parsePriceText(text: string): { price: number; currency: string } | undefined {
   const cleaned = cleanText(text);
-  const match = cleaned.match(/([\d ]+(?:[.,]\d+)?)\s*(Kč|€|[A-Z]{3})/);
+  const match = cleaned.match(/(\d[\d ]*(?:[.,]\d+)?)\s*(Kč|€|[A-Z]{3})/);
   if (!match) return undefined;
   const price = parseFloat(match[1].replace(/ /g, '').replace(',', '.'));
   if (Number.isNaN(price)) return undefined;

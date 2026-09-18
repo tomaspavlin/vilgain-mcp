@@ -1,6 +1,6 @@
-import { CartContent, OrderSummary, ProductDetail, SearchProduct, VilgainCredentials } from './types.js';
+import { CartContent, OrderDetail, OrderSummary, ProductDetail, SearchProduct, VilgainCredentials } from './types.js';
 import { parseCart } from './parsers/cart.js';
-import { isOrderHistoryEmpty, parseOrderHistory } from './parsers/orders.js';
+import { isOrderHistoryEmpty, parseOrderDetail, parseOrderHistory } from './parsers/orders.js';
 import { parseProductDetail } from './parsers/product.js';
 import { parseSearchResults } from './parsers/search.js';
 
@@ -242,5 +242,18 @@ export class VilgainAPI {
       orders: parseOrderHistory(html, this.baseUrl),
       empty: isOrderHistoryEmpty(html),
     };
+  }
+
+  /** Get one order's items, total, delivery destination and shipment timeline. */
+  async getOrderDetail(orderId: string): Promise<OrderDetail> {
+    if (!/^\d+$/.test(orderId)) {
+      throw new VilgainAPIError(`Invalid order id "${orderId}" - expected a number from get_order_history`);
+    }
+    const html = await this.getAuthenticatedPage(`/muj-ucet/objednavka/${orderId}`);
+    const detail = parseOrderDetail(html, this.baseUrl);
+    if (!detail.orderNumber) {
+      throw new VilgainAPIError(`Order ${orderId} not found on this account`);
+    }
+    return detail;
   }
 }

@@ -92,9 +92,42 @@ export interface OrderSummary {
   /** Order id/number as displayed by the shop */
   id: string;
   url?: string;
+  /** ISO date (YYYY-MM-DD) */
   date?: string;
+  /** e.g. "Vyřízeno", "Stornováno" */
   state?: string;
-  total?: string;
-  /** Free-form summary of items if available on the list page */
-  itemsSummary?: string;
+  total?: number;
+  currency?: string;
+  /** Product names in the order (from the list page thumbnails) */
+  productNames: string[];
+}
+
+export interface OrderItem {
+  name: string;
+  /** e.g. "Příchuť: křupavé mandle" */
+  variant?: string;
+  quantity?: number;
+  /** Line price with VAT */
+  price?: number;
+  currency?: string;
+  /** Product page URL */
+  url?: string;
+}
+
+export interface OrderTimelineEvent {
+  /** e.g. "Zásilka byla doručena" */
+  event: string;
+  /** e.g. "11. 08. 2026 16:14" */
+  date?: string;
+}
+
+export interface OrderDetail {
+  orderNumber: string;
+  items: OrderItem[];
+  totalWithVat?: number;
+  currency?: string;
+  /** Shipment status history, most recent first */
+  timeline: OrderTimelineEvent[];
+  /** Delivery destination (pickup point or address) */
+  deliveryAddress?: string;
 }

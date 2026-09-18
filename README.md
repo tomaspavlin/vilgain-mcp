@@ -57,7 +57,8 @@ For Claude Code: `claude mcp add vilgain -e VILGAIN_EMAIL=... -e VILGAIN_PASSWOR
 | `add_to_cart` | Add a product variant to the cart |
 | `set_cart_item_quantity` | Change the quantity of a cart item |
 | `remove_from_cart` | Remove an item from the cart |
-| `get_order_history` | List past orders |
+| `get_order_history` | List past orders with dates, states, totals and product names |
+| `get_order_detail` | One order's items, prices, delivery destination and shipment timeline |
 
 `search_products` results can go straight to `add_to_cart` (the displayed variant); use `get_product_variants` to pick a different flavor or size. Checkout is intentionally not automated — finish the order yourself in the browser.
 

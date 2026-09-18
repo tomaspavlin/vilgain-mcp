@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parseCart } from '../src/parsers/cart.js';
-import { isOrderHistoryEmpty, parseOrderHistory } from '../src/parsers/orders.js';
+import { isOrderHistoryEmpty, parseOrderDetail, parseOrderHistory } from '../src/parsers/orders.js';
 import { parseProductDetail, variantIdFromUrl } from '../src/parsers/product.js';
 import { parseSearchResults } from '../src/parsers/search.js';
 
@@ -123,6 +123,54 @@ describe('parseOrderHistory', () => {
     const html = fixture('orders-page-empty.html');
     expect(isOrderHistoryEmpty(html)).toBe(true);
     expect(parseOrderHistory(html, BASE_URL)).toEqual([]);
+  });
+
+  it('parses order rows', () => {
+    const orders = parseOrderHistory(fixture('orders-page.html'), BASE_URL);
+    expect(orders.length).toBe(10);
+
+    const first = orders[0];
+    expect(first.id).toBe('6661651');
+    expect(first.url).toBe('https://vilgain.cz/muj-ucet/objednavka/6661651');
+    expect(first.date).toBe('2026-08-06');
+    expect(first.state).toBe('Vyřízeno');
+    expect(first.total).toBe(837);
+    expect(first.currency).toBe('CZK');
+    expect(first.productNames.length).toBeGreaterThan(0);
+    expect(first.productNames.join(' ')).toContain('Mandlové máslo');
+  });
+});
+
+describe('parseOrderDetail', () => {
+  const detail = parseOrderDetail(fixture('order-detail-page.html'), BASE_URL);
+
+  it('parses order number and total', () => {
+    expect(detail.orderNumber).toBe('6661651');
+    expect(detail.totalWithVat).toBe(837);
+    expect(detail.currency).toBe('CZK');
+  });
+
+  it('parses items without duplicates', () => {
+    // 5 products + a discount voucher line
+    expect(detail.items.length).toBe(6);
+    expect(detail.items.at(-1)!.name).toContain('Poukaz');
+    const almondButter = detail.items.find((i) => i.name.includes('Mandlové máslo'));
+    expect(almondButter).toBeDefined();
+    expect(almondButter!.variant).toContain('křupavé mandle');
+    expect(almondButter!.quantity).toBe(1);
+    expect(almondButter!.price).toBe(186);
+    expect(almondButter!.url).toContain('/vilgain-mandlove-maslo');
+  });
+
+  it('parses the shipment timeline', () => {
+    expect(detail.timeline.length).toBeGreaterThanOrEqual(5);
+    expect(detail.timeline[0].event).toBe('Objednávka doručena, děkujeme');
+    expect(detail.timeline[0].date).toBe('11. 08. 2026 16:14');
+    expect(detail.timeline.at(-1)!.event).toBe('Objednávka vytvořena');
+  });
+
+  it('parses the delivery destination', () => {
+    expect(detail.deliveryAddress).toContain('Thámova');
   });
 });
 

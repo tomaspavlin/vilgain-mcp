@@ -82,9 +82,19 @@ await step('getCart', async () => {
   await api.getCart();
 });
 
-await step('getOrderHistory', async () => {
-  await api.getOrderHistory();
-});
+const history = await step('getOrderHistory', async () => api.getOrderHistory());
+
+if (history && history.orders.length > 0) {
+  await step(`getOrderDetail(${history.orders[0].id})`, async () => {
+    const detail = await api.getOrderDetail(history.orders[0].id);
+    assert(detail.orderNumber === history.orders[0].id, 'order number mismatch');
+    assert(detail.items.length > 0, 'no items parsed');
+    assert(detail.totalWithVat !== undefined, 'no total parsed');
+    assert(detail.timeline.length > 0, 'no timeline parsed');
+  });
+} else {
+  console.log('- getOrderDetail skipped (account has no orders)');
+}
 
 console.log(failures === 0 ? '\nAll checks passed.' : `\n${failures} check(s) failed.`);
 process.exit(failures === 0 ? 0 : 1);

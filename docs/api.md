@@ -60,9 +60,10 @@ Cart content is parsed from the cart page's dataLayer: the object with `total_va
 ### Order history
 
 ```
-GET /muj-ucet/objednavky          # requires login
+GET /muj-ucet/objednavky          # order list, requires login
+GET /muj-ucet/objednavka/<id>     # order detail, requires login
 ```
 
-Empty state contains the text "Zatím nemáte žádné objednávky". Order rows link to `/muj-ucet/objednavky/<id>`.
+List page: empty state contains the text "Zatím nemáte žádné objednávky"; otherwise rows are `li.p-order-list-item` with a link to `/muj-ucet/objednavka/<id>`, a `time[datetime]` date, state (`.p-order-list-item__info--state`), total (`...--price`) and product thumbnails whose `data-bs-original-title` tooltips carry the product names.
 
-> Note: order row parsing is best-effort — it was developed against an account with no orders yet.
+Detail page: order number in `.p-order-detail-status__title strong`; items are `.p-order-detail-item__item` (rendered twice — desktop and mobile layout — so deduplicate), with title link, `__params` (variant), quantity ("N ks") and line price; the discount voucher appears as an item row without price. Total is in `.p-order-detail-price__wrapper`, the shipment timeline in `.order-detail-watch__item` entries ("event date time"), and the delivery destination in `.p-order-detail-location__base`. Billing and contact boxes are intentionally not parsed.
