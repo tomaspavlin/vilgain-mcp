@@ -6,6 +6,7 @@ import { VilgainAPI } from './vilgain-api.js';
 import { createCartTools } from './tools/cart.js';
 import { createOrderHistoryTool } from './tools/order-history.js';
 import { createProductDetailTool } from './tools/product-detail.js';
+import { createProductVariantsTool } from './tools/product-variants.js';
 import { createSearchProductsTool } from './tools/search-products.js';
 
 const email = process.env.VILGAIN_EMAIL;
@@ -26,11 +27,13 @@ const server = new McpServer({
 });
 
 const searchProducts = createSearchProductsTool(api);
+const productVariants = createProductVariantsTool(api);
 const productDetail = createProductDetailTool(api);
 const cartTools = createCartTools(api);
 const orderHistory = createOrderHistoryTool(api);
 
 server.registerTool(searchProducts.name, searchProducts.definition, searchProducts.handler);
+server.registerTool(productVariants.name, productVariants.definition, productVariants.handler);
 server.registerTool(productDetail.name, productDetail.definition, productDetail.handler);
 server.registerTool(cartTools.getCartContent.name, cartTools.getCartContent.definition, cartTools.getCartContent.handler);
 server.registerTool(cartTools.addToCart.name, cartTools.addToCart.definition, cartTools.addToCart.handler);

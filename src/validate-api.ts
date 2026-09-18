@@ -44,6 +44,7 @@ const products = await step('searchProducts("protein")', async () => {
   assert(results.length > 0, 'no search results');
   assert(results[0].url.startsWith('http'), 'missing product url');
   assert(results[0].price !== undefined, 'missing price');
+  assert(results[0].variantId !== undefined, 'missing displayed variant id');
   return results;
 });
 

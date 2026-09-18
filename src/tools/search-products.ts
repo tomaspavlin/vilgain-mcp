@@ -8,8 +8,9 @@ export function createSearchProductsTool(api: VilgainAPI) {
     definition: {
       title: 'Search Products',
       description:
-        'Search for products on Vilgain by name or keyword. Returns product names, prices, ratings and product URLs. ' +
-        'To add a product to the cart, first call get_product_detail with its URL to pick a specific variant (flavor/size).',
+        'Search for products on Vilgain by name or keyword. Returns product names, prices, ratings, product URLs and ' +
+        'the Variant ID of the displayed variant, which can be passed directly to add_to_cart. ' +
+        'To pick a different flavor/size, call get_product_variants with the product URL first.',
       inputSchema: {
         query: z.string().min(1).describe('Search term, e.g. "whey protein" or "arašídové máslo"'),
         limit: z.number().int().min(1).max(30).default(10).describe('Maximum number of results (default 10)'),
@@ -30,7 +31,8 @@ export function createSearchProductsTool(api: VilgainAPI) {
             const price = p.price !== undefined ? `${p.price} ${p.currency}` : 'price unavailable';
             const rating = p.rating ? ` | Rating: ${p.rating} (${p.reviewCount} reviews)` : '';
             const variant = p.defaultVariant ? ` | Shown variant: ${p.defaultVariant}` : '';
-            return `• ${p.name}${p.subtitle ? ` – ${p.subtitle}` : ''}\n  Price: ${price}${variant}${rating}\n  URL: ${p.url}`;
+            const variantId = p.variantId !== undefined ? `\n  Variant ID (shown variant): ${p.variantId}` : '';
+            return `• ${p.name}${p.subtitle ? ` – ${p.subtitle}` : ''}\n  Price: ${price}${variant}${rating}${variantId}\n  URL: ${p.url}`;
           })
           .join('\n\n');
         return textResult(`Found ${products.length} products for "${query}":\n\n${output}`);

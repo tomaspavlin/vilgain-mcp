@@ -35,6 +35,16 @@ describe('parseSearchResults', () => {
     const ids = products.map((p) => p.productId);
     expect(new Set(ids).size).toBe(ids.length);
   });
+
+  it('resolves displayed variant ids from analytics data', () => {
+    expect(products[0].variantId).toBe(44471);
+    // Most cards should resolve, even past non-product entries in the analytics list.
+    const resolved = products.filter((p) => p.variantId !== undefined);
+    expect(resolved.length).toBeGreaterThan(products.length - 5);
+    // A resolved variant id never collides with another product's id.
+    const ids = resolved.map((p) => p.variantId);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
 });
 
 describe('parseProductDetail', () => {
@@ -78,6 +88,10 @@ describe('parseProductDetail', () => {
 
   it('parses dosage', () => {
     expect(detail.dosage).toContain('odměrku');
+  });
+
+  it('identifies the selected variant', () => {
+    expect(detail.selectedVariantId).toBe(44471);
   });
 });
 

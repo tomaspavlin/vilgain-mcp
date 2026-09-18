@@ -28,11 +28,11 @@ export function createCartTools(api: VilgainAPI) {
     definition: {
       title: 'Add to Cart',
       description:
-        'Add a product variant to the Vilgain shopping cart. Requires a variant ID from get_product_detail ' +
-        '(a variant is a specific flavor + size). Adds the given quantity on top of what is already in the cart. ' +
-        'Returns the updated cart.',
+        'Add a product variant to the Vilgain shopping cart. Requires a variant ID - either the displayed variant ' +
+        'from search_products, or a specific flavor/size from get_product_variants. ' +
+        'Adds the given quantity on top of what is already in the cart. Returns the updated cart.',
       inputSchema: {
-        variant_id: z.number().int().positive().describe('Variant ID from get_product_detail'),
+        variant_id: z.number().int().positive().describe('Variant ID from search_products or get_product_variants'),
         quantity: z.number().int().min(1).max(100).default(1).describe('How many pieces to add (default 1)'),
       },
       annotations: {

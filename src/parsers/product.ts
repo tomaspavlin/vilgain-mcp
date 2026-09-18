@@ -181,5 +181,6 @@ export function parseProductDetail(html: string, finalUrl: string): ProductDetai
     rating: rating?.rating,
     reviewCount: rating?.reviewCount,
     variants,
+    selectedVariantId,
   };
 }

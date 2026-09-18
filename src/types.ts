@@ -12,6 +12,8 @@ export interface SearchProduct {
   subtitle?: string;
   /** Name of the variant the listed price refers to, e.g. "Čokoláda 1 000 g" */
   defaultVariant?: string;
+  /** Variant id of the displayed variant, usable directly with add_to_cart (best-effort) */
+  variantId?: number;
   /** Absolute URL of the product detail page */
   url: string;
   /** Current price of the default variant (VAT included) */
@@ -64,6 +66,8 @@ export interface ProductDetail {
   rating?: string;
   reviewCount?: number;
   variants: ProductVariant[];
+  /** Id of the variant the page content (ingredients, nutrition) refers to */
+  selectedVariantId?: number;
 }
 
 export interface CartItem {

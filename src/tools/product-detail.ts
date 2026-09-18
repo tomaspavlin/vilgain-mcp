@@ -15,15 +15,14 @@ export function createProductDetailTool(api: VilgainAPI) {
     definition: {
       title: 'Get Product Detail',
       description:
-        'Get full details of a Vilgain product: description, ingredients (with allergens), nutrition facts, ' +
-        'dosage and all purchasable variants (flavors/sizes) with prices and variant IDs. ' +
-        'Use the variant ID with add_to_cart. Ingredients and nutrition facts refer to the variant selected by the URL; ' +
-        'pass a specific variant URL to inspect a different flavor.',
+        'Get what is inside a Vilgain product: ingredients (with allergens), nutrition facts, dosage and description. ' +
+        'Content refers to the variant selected by the URL - pass a specific variant URL (from get_product_variants) ' +
+        'to inspect a different flavor. For the list of variants and prices use get_product_variants instead.',
       inputSchema: {
         product_url: z
           .string()
           .min(1)
-          .describe('Product URL from search_products, e.g. "https://vilgain.cz/vilgain-whey-protein-2"'),
+          .describe('Product or variant URL, e.g. "https://vilgain.cz/vilgain-whey-protein-2"'),
       },
       annotations: {
         readOnlyHint: true,
@@ -36,18 +35,10 @@ export function createProductDetailTool(api: VilgainAPI) {
 
         const sections: string[] = [];
         sections.push(`# ${detail.name}`);
+        const selected = detail.variants.find((v) => v.variantId === detail.selectedVariantId);
+        if (selected) sections.push(`Content below refers to variant: ${selected.name} (Variant ID: ${selected.variantId})`);
         if (detail.rating) sections.push(`Rating: ${detail.rating} (${detail.reviewCount} reviews)`);
         if (detail.shortDescription) sections.push(detail.shortDescription);
-
-        if (detail.variants.length > 0) {
-          const variants = detail.variants
-            .map((v) => {
-              const stock = v.inStock ? '' : ' | OUT OF STOCK';
-              return `• ${v.name} – ${v.price} ${v.currency}${stock}\n  Variant ID: ${v.variantId}`;
-            })
-            .join('\n');
-          sections.push(`## Variants (use Variant ID with add_to_cart)\n${variants}`);
-        }
 
         if (detail.ingredients) sections.push(`## Ingredients & allergens\n${detail.ingredients}`);
         if (detail.nutrition.length > 0) {
