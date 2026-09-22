@@ -48,7 +48,7 @@ Add the MCP to the Claude Desktop configuration file:
   "mcpServers": {
     "vilgain": {
       "command": "npx",
-      "args": ["-y", "@tomaspavlin/vilgain-mcp"],
+      "args": ["-y", "vilgain-mcp"],
       "env": {
         "VILGAIN_EMAIL": "your-email@example.com",
         "VILGAIN_PASSWORD": "your-password"
@@ -58,7 +58,7 @@ Add the MCP to the Claude Desktop configuration file:
 }
 ```
 
-For Claude Code: `claude mcp add vilgain -e VILGAIN_EMAIL=... -e VILGAIN_PASSWORD=... -- npx -y @tomaspavlin/vilgain-mcp`
+For Claude Code: `claude mcp add vilgain -e VILGAIN_EMAIL=... -e VILGAIN_PASSWORD=... -- npx -y vilgain-mcp`
 
 ### Configuration
 

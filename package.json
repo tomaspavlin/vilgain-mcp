@@ -1,5 +1,5 @@
 {
-  "name": "@tomaspavlin/vilgain-mcp",
+  "name": "vilgain-mcp",
   "version": "0.1.0",
   "type": "module",
   "description": "MCP server for shopping on Vilgain.cz (healthy food e-shop, formerly Aktin)",
