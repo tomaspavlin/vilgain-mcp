@@ -7,7 +7,7 @@
 > [!WARNING]
 > This is an unofficial MCP server for personal use only.
 
-This is a [Model Context Protocol](https://modelcontextprotocol.io) server that lets AI assistants search products, inspect ingredients and nutrition facts, and manage the shopping cart on Vilgain.
+This is a [Model Context Protocol](https://modelcontextprotocol.io) server that lets AI assistants search products, inspect ingredients and nutrition facts, and manage the shopping cart on [vilgain.cz](https://vilgain.cz).
 
 Because Vilgain focuses on clean-label food, the product detail tool exposes what matters there: **ingredients, allergens and full nutrition facts** — so you can shop by what's actually in the food.
 
