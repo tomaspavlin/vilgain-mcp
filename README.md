@@ -2,6 +2,8 @@
 
 **Let your favourite LLM shop for healthy food on [Vilgain.cz](https://vilgain.cz) (formerly Aktin).**
 
+<img src="docs/cover.jpg" alt="A hand-drawn robot delivering a protein shaker to a guy at the gym, respecting his plant-based, nut-free preferences" width="700">
+
 > [!WARNING]
 > This MCP server is made for study purposes and uses the reverse engineered Vilgain website API. It is for personal use only.
 
