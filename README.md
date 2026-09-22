@@ -5,7 +5,7 @@
 <img src="docs/cover.jpg" alt="A hand-drawn robot delivering a protein shaker to a guy at the gym, respecting his plant-based, nut-free preferences" width="700">
 
 > [!WARNING]
-> This MCP server is made for study purposes and uses the reverse engineered Vilgain website API. It is for personal use only.
+> This is an unofficial MCP server for personal use only.
 
 This is a [Model Context Protocol](https://modelcontextprotocol.io) server that lets AI assistants search products, inspect ingredients and nutrition facts, and manage the shopping cart on Vilgain.
 
